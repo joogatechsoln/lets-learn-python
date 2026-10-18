@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentor view - Let's Learn Python</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { --ink:#0f1a2b; --mist:#eef2f8; --card:#fff; --rule:#d9e0ec; --text:#14213a; --muted:#5b6b86; --accent:#6c63ff; --good:#2fb67c; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, "Segoe UI", sans-serif; background:var(--mist); color:var(--text); }
+  header { background:var(--ink); color:#fff; padding:16px 28px; display:flex; align-items:center; gap:14px; }
+  header h1 { font-size:20px; margin:0; } header span { color:#9fb4d6; font-size:14px; }
+  main { max-width:1100px; margin:24px auto; padding:0 20px; }
+  .drop { background:var(--card); border:2px dashed var(--rule); border-radius:16px; padding:26px; text-align:center; }
+  .drop.over { border-color:var(--accent); background:#f3f2ff; }
+  .btn { font:600 14px system-ui; border:0; border-radius:10px; padding:9px 16px; background:var(--accent); color:#fff; cursor:pointer; }
+  .btn.ghost { background:#e3e8f2; color:var(--text); }
+  table { width:100%; border-collapse:collapse; background:var(--card); border-radius:14px; overflow:hidden; margin-top:18px; }
+  th, td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--rule); font-size:14px; vertical-align:middle; }
+  th { background:#f6f8fc; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); cursor:pointer; }
+  .bar { height:8px; background:var(--rule); border-radius:9px; overflow:hidden; min-width:90px; } .bar i { display:block; height:100%; background:var(--good); }
+  .chapters { display:flex; gap:3px; } .chapters span { width:16px; height:16px; border-radius:4px; background:var(--rule); } .chapters span.on { background:var(--good); } .chapters span.part { background:#9be0c0; }
+  .muted { color:var(--muted); } .tools { display:flex; gap:10px; margin-top:16px; align-items:center; }
+  .warn { color:#b3402f; margin-top:12px; }
+  .summary { display:flex; gap:14px; margin-top:18px; flex-wrap:wrap; } .summary div { background:var(--card); border-radius:12px; padding:12px 18px; } .summary b { font-size:24px; display:block; }
+</style>
+</head>
+<body>
+<header><h1>Mentor view</h1><span>Combine progress reports from your learners. Nothing leaves your computer.</span></header>
+<main>
+  <div class="drop" id="drop">
+    <p><b>Drop progress-report.json files here</b>, or choose them.</p>
+    <p class="muted">Each learner downloads their report from the profile menu in the app: "Download progress report".</p>
+    <input type="file" id="files" accept=".json,application/json" multiple hidden>
+    <button class="btn" id="pick">Choose files</button>
+  </div>
+  <p class="warn" id="warn" hidden></p>
+  <div class="summary" id="summary" hidden></div>
+  <div class="tools" id="tools" hidden><button class="btn ghost" id="csv">Download as CSV</button><button class="btn ghost" id="clear">Clear</button></div>
+  <div id="out"></div>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  let rows = [], sortKey = "pct", sortDir = -1;
+  function ingest(rep, file) {
+    if (!rep || typeof rep !== "object" || !rep.tracks) throw new Error(file + " is not a progress report");
+    for (const [key, t] of Object.entries(rep.tracks)) {
+      const id = (rep.name || file) + "|" + key;
+      rows = rows.filter((r) => r.id !== id);
+      rows.push({ id, name: rep.name || "(no name)", rank: rep.rank || "", xp: rep.xp || 0, streak: rep.streak || 0, industry: t.industry, done: t.lessons_done, total: t.lessons_total,
+        pct: t.lessons_total ? Math.round((t.lessons_done / t.lessons_total) * 100) : 0, drills: `${t.bug_drills_done}/${t.bug_drills_total ?? "?"}`, reviews: t.reviews_done ?? 0, date: rep.generated || "", chapters: t.chapters || [] });
+    }
+  }
+  function render() {
+    $("tools").hidden = $("summary").hidden = !rows.length;
+    const sorted = [...rows].sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : a[sortKey] < b[sortKey] ? -1 : 0) * sortDir);
+    const learners = new Set(rows.map((r) => r.name)).size, avg = rows.length ? Math.round(rows.reduce((s, r) => s + r.pct, 0) / rows.length) : 0;
+    $("summary").innerHTML = `<div><b>${learners}</b>learners</div><div><b>${rows.length}</b>tracks</div><div><b>${avg}%</b>average progress</div><div><b>${rows.filter((r) => r.pct === 100).length}</b>finished</div>`;
+    const th = (k, label) => `<th data-k="${k}">${label}${sortKey === k ? (sortDir > 0 ? " ▲" : " ▼") : ""}</th>`;
+    $("out").innerHTML = rows.length ? `<table><thead><tr>${th("name", "Learner")}${th("industry", "Industry")}${th("pct", "Progress")}<th>Chapters</th>${th("drills", "Bug Lab")}${th("xp", "XP")}${th("streak", "Streak")}${th("date", "Report date")}</tr></thead><tbody>` +
+      sorted.map((r) => `<tr><td><b>${esc(r.name)}</b><br><span class="muted">${esc(r.rank)}</span></td><td>${esc(r.industry)}</td><td><div class="bar" title="${r.done} of ${r.total} lessons"><i style="width:${r.pct}%"></i></div><span class="muted">${r.done}/${r.total} · ${r.pct}%</span></td>` +
+        `<td><div class="chapters">${r.chapters.map((c) => `<span class="${c.done === c.total ? "on" : c.done ? "part" : ""}" title="${esc(c.n + ". " + c.title + ": " + c.done + "/" + c.total)}"></span>`).join("")}</div></td><td>${r.drills}</td><td>${r.xp}</td><td>${r.streak}</td><td>${esc(r.date)}</td></tr>`).join("") + "</tbody></table>" : "";
+    $("out").querySelectorAll("th[data-k]").forEach((h) => (h.onclick = () => { sortDir = sortKey === h.dataset.k ? -sortDir : -1; sortKey = h.dataset.k; render(); }));
+  }
+  async function take(files) {
+    const errs = [];
+    for (const f of files) { try { ingest(JSON.parse(await f.text()), f.name); } catch (e) { errs.push(e.message); } }
+    $("warn").hidden = !errs.length; $("warn").textContent = errs.join(" · ");
+    render();
+  }
+  $("pick").onclick = () => $("files").click();
+  $("files").onchange = (e) => take([...e.target.files]);
+  const drop = $("drop");
+  ["dragover", "dragenter"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", (e) => take([...e.dataTransfer.files]));
+  $("clear").onclick = () => { rows = []; render(); };
+  $("csv").onclick = () => {
+    const head = ["Learner", "Rank", "Industry", "Lessons done", "Lessons total", "Percent", "Bug Lab", "Reviews", "XP", "Streak", "Report date"];
+    const lines = [head, ...rows.map((r) => [r.name, r.rank, r.industry, r.done, r.total, r.pct, r.drills, r.reviews, r.xp, r.streak, r.date])];
+    const text = lines.map((l) => l.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "text/csv" })); a.download = "team-progress.csv"; a.click();
+  };
+  render();
+})();
+</script>
+</body>
+</html>

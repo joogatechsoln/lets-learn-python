@@ -1,0 +1,148 @@
+{
+  "key": "ai",
+  "order": 7,
+  "label": "Applied AI engineering",
+  "icon": "🤖",
+  "accent": "#E58BD9",
+  "tagline": "Watch the GPU hours and API quota behind your experiments",
+  "biz": "Signal Labs",
+  "system": "AI Quota Manager",
+  "role": "AI engineer",
+  "thing": "AI resource",
+  "things": "AI resources",
+  "records": [
+    [
+      "GPU hours",
+      48,
+      2.5
+    ],
+    [
+      "Embedding batches",
+      200,
+      0.125
+    ],
+    [
+      "Fine-tune runs",
+      6,
+      40.0
+    ],
+    [
+      "Eval jobs",
+      25,
+      1.75
+    ]
+  ],
+  "qty_unit": "left in the quota",
+  "rate_unit": "per unit",
+  "rp": "$",
+  "rs": "",
+  "tp": "$",
+  "ts": "",
+  "level": 10,
+  "msg_le": "TOP UP: <<n1>> quota is low",
+  "msg_gt": "OK: <<n1>> quota is healthy",
+  "missing": "Vector DB seats",
+  "missing_msg": "We don't track <<missing>>",
+  "delivery": 24,
+  "delivery_note": "the cloud billing export",
+  "stock_noun": "quota",
+  "total_label": "Total quota value",
+  "vw": "Quota",
+  "opening": "You've joined the applied AI team at **<<biz>>**, where experiments stall when GPU hours or API quota quietly run out. The team lead wants a program that watches the quota.",
+  "rule": "The team rule: when a resource is down to **<<level>> or fewer** units, top it up before the next experiment fails halfway through.",
+  "scene": "A teammate asks in chat: \"How much <<n2>> do we have left?\" Nobody should read the whole report. The program needs a quick lookup, and it must cope with resources you don't track.",
+  "v": {
+    "name": "resource_name",
+    "qty": "units_left",
+    "rate": "cost_per_unit",
+    "total": "quota_value",
+    "level": "topup_level",
+    "names": "resource_names",
+    "qtys": "quota",
+    "rates": "unit_costs",
+    "value_fn": "value_of_quota",
+    "report_fn": "print_quota_report",
+    "find_fn": "find_quota",
+    "read_fn": "read_units",
+    "new": "new_units"
+  },
+  "cls": {
+    "name": "Resource",
+    "qty": "units",
+    "rate": "cost",
+    "value": "value",
+    "action": {
+      "kind": "take",
+      "name": "spend",
+      "doc": "use some of the quota and return how much is left",
+      "err": "Quota exceeded"
+    }
+  },
+  "glossary": [
+    [
+      "Token",
+      "A small chunk of text a language model reads or writes. Usage is billed by tokens.",
+      ""
+    ],
+    [
+      "Quota",
+      "The amount of a resource you are allowed to use in a period.",
+      "units_left"
+    ],
+    [
+      "GPU hour",
+      "One hour of a graphics processor, the chip that trains and runs models.",
+      "GPU hours"
+    ],
+    [
+      "Embedding",
+      "A list of numbers that captures the meaning of text, used for search and RAG.",
+      ""
+    ],
+    [
+      "Fine-tuning",
+      "Training an existing model further on your own data.",
+      ""
+    ],
+    [
+      "Evaluation",
+      "Running tests to measure how good a model's answers are.",
+      "Eval jobs"
+    ],
+    [
+      "Cost per unit",
+      "What one unit of a resource costs. Multiply by usage to budget.",
+      "cost_per_unit"
+    ]
+  ],
+  "alert_name": "Top-up alert",
+  "probe": {
+    "name": "Loss delta probe",
+    "tag": "LOS",
+    "id": 704,
+    "unit": "loss",
+    "reading": -0.25,
+    "target": -0.5,
+    "readings": [
+      -0.5,
+      -0.25,
+      -0.125,
+      -0.0625,
+      -0.03125
+    ],
+    "raw_label": " validation loss run 12 ",
+    "text_reading": "-0.25",
+    "pos": [
+      4,
+      4
+    ],
+    "pos_label": "rack and slot position",
+    "batch_word": "batches",
+    "batch_size": 10
+  },
+  "py_uses": [
+    "Clean and label training data for models",
+    "Build RAG pipelines that answer questions from company documents",
+    "Track experiments, cost and quality across model runs"
+  ]
+}

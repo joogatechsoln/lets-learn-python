@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let's Learn Python</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/vendor/codemirror.css">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <h1 class="brand"><span class="logo" aria-hidden="true">🐍</span>Let's Learn Python</h1>
+  <label class="picker">
+    <span class="sr">Choose a lesson</span>
+    <select id="lessonPicker"></select>
+  </label>
+  <div class="meter" aria-label="Course progress">
+    <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter"><div class="meter-fill" id="meterFill"></div></div>
+    <span class="meter-pct" id="meterPct">0%</span>
+  </div>
+  <div class="chips">
+    <span class="chip-stat" id="xpChip" title="Experience points"><b id="xpNum">0</b> XP<small id="rankName"></small></span>
+    <span class="chip-stat" id="streakChip" title="Days in a row you finished something">🔥 <b id="streakNum">0</b></span>
+  </div>
+  <button class="icon-btn" id="themeBtn" aria-label="Switch light and dark theme" title="Light / dark">◐</button>
+  <div class="who">
+    <button class="avatar" id="avatar" aria-haspopup="true" aria-expanded="false" title="Profile"><span id="avatarText">?</span></button>
+    <div class="menu" id="menu" hidden>
+      <button data-act="profile">Change name or industry</button>
+      <button data-act="cert">View certificate</button>
+      <button data-act="export">Download project.py</button>
+      <button data-act="report">Download progress report</button>
+      <button data-act="mentor">Mentor view</button>
+      <button data-act="reset">Start this track over</button>
+    </div>
+  </div>
+</header>
+
+<main class="grid">
+  <section class="panel slides" aria-labelledby="lessonTitle">
+    <div class="slides-head">
+      <div>
+        <p class="meta"><span id="lessonCount"></span><span class="chip" id="chapterChip"></span></p>
+        <h2 id="lessonTitle"></h2>
+      </div>
+      <button class="btn go" id="nextLesson" hidden>Next lesson</button>
+    </div>
+    <div class="slide" id="slideBody"></div>
+    <nav class="slide-nav" aria-label="Slides">
+      <button class="btn ghost" id="prevSlide"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Prev</button>
+      <div class="dots" id="dots"></div>
+      <button class="btn ghost" id="nextSlide">Next<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </nav>
+  </section>
+
+  <section class="panel terminal" aria-label="Terminal">
+    <div class="bar"><h3>Terminal</h3><span class="sbx" id="sbx" title=""></span><button class="link" id="clearTerm">Clear</button></div>
+    <div class="term-body" id="term" role="log" aria-live="polite"></div>
+    <details class="stdin"><summary>Input for <code>input()</code></summary>
+      <textarea id="stdin" rows="3" spellcheck="false" placeholder="One line for each input() call your program makes"></textarea></details>
+  </section>
+
+  <section class="panel editor" aria-label="Code editor">
+    <div class="bar">
+      <div class="tab"><span id="fileName">main.py</span><span class="state" id="fileState"></span></div>
+      <div class="tools">
+        <select id="tpl" hidden aria-label="Playground templates"><option value="">Templates...</option><option value="blank">Blank</option><option value="ask">Ask with input()</option><option value="csv">Read records.csv</option><option value="json">Save settings.json</option><option value="log">Append to a log file</option><option value="safe">Handle a missing file</option></select>
+        <button class="link" id="hintBtn">Hint</button>
+        <button class="link" id="resetBtn">Reset</button>
+      </div>
+    </div>
+    <div class="editor-body" id="editorHost"></div>
+    <div class="actions">
+      <button class="btn run" id="runBtn"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg><span id="runLabel">Run</span><kbd>Ctrl+Enter</kbd></button>
+      <button class="btn build" id="buildBtn"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 13 8.5 6.5M9 3l4 4-1.5 1.5-4-4zM3 14l-1-1 1.5-1.5L4.5 13z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Build</button>
+    </div>
+  </section>
+
+  <section class="panel preview" id="previewPanel" aria-label="Live project preview">
+    <div class="preview-head">
+      <div class="ph-title"><h3 id="projName">Your project</h3><p id="projBiz"></p></div>
+      <span class="live" title="The 3D view updates from the code you run"><i></i>LIVE</span>
+      <div class="pv-tools">
+        <label class="toggle" title="Re-run the project a moment after you stop typing"><input type="checkbox" id="liveToggle" checked><span>Auto-run</span></label>
+        <button class="link" id="pvAction" hidden></button>
+        <button class="link" id="pvReset" title="Reset the camera (or double-click the scene)" aria-label="Reset camera">&#10226;</button>
+        <button class="link" id="pvMax" title="Expand the preview" aria-label="Expand preview">&#10530;</button>
+      </div>
+    </div>
+    <div class="pv-tabs" role="tablist">
+      <button role="tab" data-pv="3d" aria-selected="true">3D view</button>
+      <button role="tab" data-pv="out" aria-selected="false">Program output</button>
+    </div>
+    <div class="scene-wrap" id="sceneWrap">
+      <canvas id="scene3d" aria-label="3D preview of your project"></canvas>
+      <div class="labels" id="labels"></div>
+      <div class="hud" id="hud"></div>
+      <div class="inspect" id="inspect" hidden><button class="x" id="inspectX" aria-label="Close">&times;</button><h4 id="inspectT"></h4><div id="inspectB"></div></div>
+      <p class="nogl-msg">This browser cannot show 3D graphics (WebGL is off). The Program output tab still works.</p>
+    </div>
+    <div class="preview-body" id="previewBody" hidden></div>
+    <div class="pv-foot">
+      <div class="board" id="modules" aria-label="Project modules"></div>
+      <p class="next-mod" id="nextMod"></p>
+      <div class="stats" id="stats"></div>
+    </div>
+  </section>
+
+  <section class="panel files" aria-label="File manager">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="files" aria-selected="true">Files</button>
+      <button role="tab" data-tab="bugs" aria-selected="false">Bug Lab</button>
+      <button role="tab" data-tab="review" aria-selected="false">Review</button>
+      <button role="tab" data-tab="space" aria-selected="false">Workspace</button>
+      <button role="tab" data-tab="guide" aria-selected="false">Guide</button>
+    </div>
+    <ul class="file-list" id="fileList"></ul>
+    <ul class="file-list" id="bugList" hidden></ul>
+    <div class="guide" id="guide" hidden></div>
+    <div class="guide" id="review" hidden></div>
+    <div class="guide" id="space" hidden></div>
+  </section>
+</main>
+
+<dialog id="setup">
+  <form method="dialog" id="setupForm" class="dlg">
+    <h2 id="setupTitle">Learn Python by building your own system</h2>
+    <p class="lead">Pick your industry. Every lesson uses its real work and its real words, and everything you write adds to one working program.</p>
+    <label class="field">What should we call you?
+      <input id="nameInput" maxlength="40" autocomplete="off" placeholder="Your name">
+    </label>
+    <fieldset class="cards" id="themeCards"><legend class="sr">Industry</legend></fieldset>
+    <div class="dlg-actions">
+      <button type="button" class="btn ghost dark" id="setupCancel" hidden>Cancel</button>
+      <button type="submit" class="btn run" id="setupGo">Start learning</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="done">
+  <div class="dlg">
+    <h2 id="doneTitle">You built it</h2>
+    <p class="lead" id="doneLead"></p>
+    <ul class="skills" id="skills"></ul>
+    <div class="dlg-actions">
+      <button class="btn ghost dark" id="doneClose">Close</button>
+      <button class="btn ghost dark" id="doneExport">Download project.py</button>
+      <button class="btn ghost dark" id="donePlay">Open the Playground</button>
+      <a class="btn run" id="doneCert" href="/api/certificate" target="_blank" rel="noopener">View certificate</a>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="compare">
+  <div class="dlg">
+    <h2 id="cmpTitle">Same idea, other industries</h2>
+    <p class="lead">Every industry solves each lesson with the same Python idea. Compare them to see what changes (the words) and what stays the same (the pattern).</p>
+    <div class="cmp-tabs" id="cmpTabs" role="tablist"></div>
+    <pre class="cmp-code" id="cmpCode"></pre>
+    <div class="dlg-actions"><button class="btn ghost dark" id="cmpClose">Close</button></div>
+  </div>
+</dialog>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="/vendor/codemirror.js"></script>
+<script src="/vendor/cm-python.js"></script>
+<script src="/vendor/matchbrackets.js"></script>
+<script src="/vendor/closebrackets.js"></script>
+<script src="/vendor/runmode.js"></script>
+<script src="/mini3d.js"></script>
+<script src="/three-engine.js"></script>
+<script src="/scenes.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

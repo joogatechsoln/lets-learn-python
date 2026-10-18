@@ -1,0 +1,155 @@
+{
+  "key": "banking",
+  "order": 9,
+  "world": "support",
+  "label": "Banking",
+  "icon": "🏦",
+  "accent": "#4FB0AE",
+  "tagline": "Balance tellers and customer queues in a bank branch",
+  "biz": "Pioneer Bank",
+  "system": "Branch Queue Board",
+  "role": "branch operations assistant",
+  "thing": "service queue",
+  "things": "service queues",
+  "records": [
+    [
+      "Cash deposits",
+      18,
+      3.5
+    ],
+    [
+      "Account opening",
+      7,
+      15.0
+    ],
+    [
+      "Loan enquiries",
+      11,
+      12.5
+    ],
+    [
+      "Card replacements",
+      14,
+      6.0
+    ]
+  ],
+  "qty_unit": "customers waiting",
+  "rate_unit": "per customer",
+  "rp": "",
+  "rs": " min",
+  "tp": "",
+  "ts": " min",
+  "level": 10,
+  "msg_le": "ONE TELLER: <<n1>> is covered",
+  "msg_gt": "ADD TELLER: <<n1>> needs another teller",
+  "missing": "Foreign exchange",
+  "missing_msg": "No queue called <<missing>>",
+  "delivery": 6,
+  "delivery_note": "the lobby ticket machine count",
+  "stock_noun": "customers",
+  "total_label": "Total waiting time",
+  "vw": "Queue",
+  "alert_name": "Teller rule",
+  "opening": "You've started in branch operations at **<<biz>>**. Customers queue for different services, and nobody can see at a glance which line is about to overflow. The branch manager wants a program that watches every queue.",
+  "rule": "The staffing rule: a queue of **<<level>> customers or fewer** is covered by one teller. A longer queue needs another teller.",
+  "scene": "A customer asks at the door: \"How long is the line for <<n2>>?\" Nobody should walk the floor to count. The board needs a quick lookup, and it must cope with services the branch does not offer.",
+  "v": {
+    "name": "service_name",
+    "qty": "customers_waiting",
+    "rate": "minutes_per_customer",
+    "total": "waiting_minutes",
+    "level": "teller_limit",
+    "names": "service_names",
+    "qtys": "waiting",
+    "rates": "service_times",
+    "value_fn": "wait_for",
+    "report_fn": "print_branch_board",
+    "find_fn": "find_service",
+    "read_fn": "read_customers",
+    "new": "new_customers"
+  },
+  "cls": {
+    "name": "Service",
+    "qty": "customers",
+    "rate": "minutes",
+    "value": "total_wait",
+    "action": {
+      "kind": "check",
+      "name": "needs_teller",
+      "cmp": ">",
+      "doc": "say whether one teller is not enough"
+    }
+  },
+  "glossary": [
+    [
+      "Teller",
+      "A bank employee who serves customers at the counter.",
+      "teller_limit"
+    ],
+    [
+      "Queue",
+      "A waiting line of customers for one service.",
+      "service_name"
+    ],
+    [
+      "Service time",
+      "Minutes spent serving one customer.",
+      "minutes_per_customer"
+    ],
+    [
+      "Wait time",
+      "Total minutes a queue needs: customers times service time.",
+      "waiting_minutes"
+    ],
+    [
+      "KYC",
+      "Know your customer: identity checks done when opening an account.",
+      ""
+    ],
+    [
+      "Ledger",
+      "The record of every transaction.",
+      ""
+    ],
+    [
+      "Branch",
+      "One local office of a bank.",
+      "print_branch_board"
+    ]
+  ],
+  "probe": {
+    "name": "Latency delta probe",
+    "tag": "LAT",
+    "id": 902,
+    "unit": "ms",
+    "reading": -2.5,
+    "target": 0.0,
+    "readings": [
+      -1.5,
+      -2.0,
+      -2.5,
+      -3.0,
+      -2.5
+    ],
+    "raw_label": " core banking link 2 ",
+    "text_reading": "-2.5",
+    "pos": [
+      4,
+      8
+    ],
+    "pos_label": "branch floor-plan position",
+    "batch_word": "tellers",
+    "batch_size": 6
+  },
+  "py_uses": [
+    "Predict busy hours and schedule tellers",
+    "Flag unusual transactions for review",
+    "Reconcile the day's cash and card totals automatically"
+  ],
+  "world_text": {
+    "unit": "customers",
+    "low": "ADD TELLER",
+    "ok": "one teller is enough",
+    "rate": "min each"
+  }
+}

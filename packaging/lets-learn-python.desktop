@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Let's Learn Python
+GenericName=Python course
+Comment=Learn Python offline by building a system for your industry
+Exec=lets-learn-python
+Icon=lets-learn-python
+Terminal=false
+Categories=Education;Development;
+Keywords=python;learn;course;programming;
+StartupNotify=true

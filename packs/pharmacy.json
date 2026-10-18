@@ -1,0 +1,148 @@
+{
+  "key": "pharmacy",
+  "order": 2,
+  "label": "Pharmacy",
+  "icon": "💊",
+  "accent": "#3CC7B1",
+  "tagline": "Keep a dispensary stocked, safe and in date",
+  "biz": "Greenleaf Pharmacy",
+  "system": "Dispensary Ledger",
+  "role": "dispensary assistant",
+  "thing": "medicine",
+  "things": "medicines",
+  "records": [
+    [
+      "Paracetamol 500mg",
+      120,
+      0.25
+    ],
+    [
+      "Amoxicillin 250mg",
+      45,
+      1.5
+    ],
+    [
+      "ORS sachets",
+      60,
+      0.75
+    ],
+    [
+      "Cough syrup",
+      30,
+      1.25
+    ]
+  ],
+  "qty_unit": "packs on the shelf",
+  "rate_unit": "per pack",
+  "rp": "$",
+  "rs": "",
+  "tp": "$",
+  "ts": "",
+  "level": 25,
+  "msg_le": "REORDER NOW: <<n1>>",
+  "msg_gt": "OK: <<n1>> is stocked",
+  "missing": "Insulin pens",
+  "missing_msg": "Not in the dispensary: <<missing>>",
+  "delivery": 40,
+  "delivery_note": "a wholesaler's delivery note",
+  "stock_noun": "packs",
+  "total_label": "Total shelf value",
+  "vw": "Shelf",
+  "opening": "You've just joined the dispensary team at **<<biz>>**. Running out of a medicine is a real problem for real people, so the pharmacist wants a program that tracks every shelf.",
+  "rule": "The pharmacist's rule: when a medicine is down to **<<level>> packs or fewer**, it must be reordered straight away.",
+  "scene": "A nurse phones: \"Have you got <<n2>>?\" The pharmacist can't stop dispensing to scroll a report. The ledger needs a quick lookup, and it must cope with medicines you don't hold.",
+  "v": {
+    "name": "medicine_name",
+    "qty": "packs_on_shelf",
+    "rate": "price_per_pack",
+    "total": "shelf_value",
+    "level": "minimum_packs",
+    "names": "medicine_names",
+    "qtys": "dispensary",
+    "rates": "pack_prices",
+    "value_fn": "value_of_packs",
+    "report_fn": "print_dispensary_report",
+    "find_fn": "find_medicine",
+    "read_fn": "read_packs",
+    "new": "new_packs"
+  },
+  "cls": {
+    "name": "Medicine",
+    "qty": "packs",
+    "rate": "price",
+    "value": "value",
+    "action": {
+      "kind": "take",
+      "name": "dispense",
+      "doc": "hand out packs and return how many are left",
+      "err": "Not enough packs"
+    }
+  },
+  "glossary": [
+    [
+      "Dispense",
+      "To hand a medicine to a patient. Your stock goes down when you do it.",
+      "dispense"
+    ],
+    [
+      "Pack",
+      "The unit a medicine is sold in, such as a box of tablets or a bottle.",
+      "packs_on_shelf"
+    ],
+    [
+      "Wholesaler",
+      "The company that supplies the pharmacy in bulk.",
+      "delivery_note"
+    ],
+    [
+      "Minimum stock",
+      "The fewest packs you are allowed to hold before reordering.",
+      "minimum_packs"
+    ],
+    [
+      "Expiry date",
+      "The date after which a medicine must not be given. Expired stock is removed.",
+      ""
+    ],
+    [
+      "Controlled drug",
+      "A medicine with legal rules on storage and records. Mistakes are serious.",
+      ""
+    ],
+    [
+      "Dispensary ledger",
+      "The record of what comes in and goes out. This program replaces it.",
+      "print_dispensary_report"
+    ]
+  ],
+  "alert_name": "Reorder alert",
+  "probe": {
+    "name": "Vaccine freezer probe",
+    "tag": "VAC",
+    "id": 207,
+    "unit": "°C",
+    "reading": -20.5,
+    "target": -20.0,
+    "readings": [
+      -20.0,
+      -20.5,
+      -21.0,
+      -19.5,
+      -20.5
+    ],
+    "raw_label": "  vaccine freezer b ",
+    "text_reading": "-20.5",
+    "pos": [
+      3,
+      7
+    ],
+    "pos_label": "room and shelf position",
+    "batch_word": "cartons",
+    "batch_size": 25
+  },
+  "py_uses": [
+    "Check that cold-chain fridges stayed in range overnight",
+    "Flag medicines close to expiry before they are wasted",
+    "Reconcile dispensed packs against the stock ledger"
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "key": "farm",
+  "order": 4,
+  "label": "Farming and agribusiness",
+  "icon": "🌱",
+  "accent": "#A8D14F",
+  "tagline": "Plan a harvest across your fields",
+  "biz": "Riverbend Farm",
+  "system": "Harvest Planner",
+  "role": "farm planner",
+  "thing": "field",
+  "things": "fields",
+  "records": [
+    [
+      "Maize field",
+      12,
+      3.5
+    ],
+    [
+      "Bean field",
+      8,
+      1.25
+    ],
+    [
+      "Sorghum field",
+      15,
+      2.0
+    ],
+    [
+      "Cassava plot",
+      5,
+      12.0
+    ]
+  ],
+  "qty_unit": "hectares planted",
+  "rate_unit": "",
+  "rp": "",
+  "rs": " t/ha",
+  "tp": "",
+  "ts": " t",
+  "level": 6,
+  "msg_le": "BY HAND: <<n1>>",
+  "msg_gt": "SEND CREW: <<n1>> is big enough",
+  "missing": "Coffee field",
+  "missing_msg": "No field called <<missing>>",
+  "delivery": 4,
+  "delivery_note": "the surveyor's note",
+  "stock_noun": "hectares",
+  "total_label": "Expected harvest",
+  "vw": "Harvest",
+  "opening": "You've started as the farm planner at **<<biz>>**. Planting is done and harvest is coming. The farm manager wants a program that forecasts every field before the crews are booked.",
+  "rule": "Harvest crews are expensive. A crew is only sent to fields of **more than <<level>> hectares**. Smaller fields are cut by hand.",
+  "scene": "The manager calls from the road: \"How big is the <<n2>>?\" You shouldn't have to find the paper map. The planner needs a quick lookup, and it must cope with fields you don't farm.",
+  "v": {
+    "name": "field_name",
+    "qty": "hectares_planted",
+    "rate": "yield_per_ha",
+    "total": "harvest_tonnes",
+    "level": "crew_threshold",
+    "names": "field_names",
+    "qtys": "fields",
+    "rates": "yields",
+    "value_fn": "forecast_harvest",
+    "report_fn": "print_harvest_plan",
+    "find_fn": "find_field",
+    "read_fn": "read_hectares",
+    "new": "new_hectares"
+  },
+  "cls": {
+    "name": "Field",
+    "qty": "hectares",
+    "rate": "yield_per_ha",
+    "value": "forecast",
+    "action": {
+      "kind": "check",
+      "name": "needs_crew",
+      "cmp": ">",
+      "doc": "say whether the field is big enough for a harvest crew"
+    }
+  },
+  "glossary": [
+    [
+      "Hectare",
+      "10,000 square metres of land, a little over one football pitch.",
+      "hectares_planted"
+    ],
+    [
+      "Yield",
+      "How much a crop produces per hectare, usually in tonnes.",
+      "yield_per_ha"
+    ],
+    [
+      "Harvest forecast",
+      "An estimate of the crop before it is cut: hectares times yield.",
+      "harvest_tonnes"
+    ],
+    [
+      "Planting season",
+      "The weeks when seed must go in the ground to ripen on time.",
+      ""
+    ],
+    [
+      "Agronomist",
+      "A specialist who advises on crops and soil.",
+      ""
+    ],
+    [
+      "Smallholder",
+      "A farmer working a small plot, often by hand.",
+      "BY HAND"
+    ],
+    [
+      "Post-harvest loss",
+      "Crop spoiled after cutting through poor storage or transport.",
+      ""
+    ]
+  ],
+  "alert_name": "Crew rule",
+  "probe": {
+    "name": "Frost probe",
+    "tag": "FRO",
+    "id": 412,
+    "unit": "°C",
+    "reading": -2.5,
+    "target": 0.0,
+    "readings": [
+      -1.5,
+      -2.0,
+      -2.5,
+      -3.0,
+      -2.5
+    ],
+    "raw_label": " frost probe north field ",
+    "text_reading": "-2.5",
+    "pos": [
+      5,
+      9
+    ],
+    "pos_label": "field grid position",
+    "batch_word": "crews",
+    "batch_size": 5
+  },
+  "py_uses": [
+    "Forecast yields from weather and soil data",
+    "Schedule harvest crews by field size",
+    "Warn about frost before it damages crops"
+  ]
+}

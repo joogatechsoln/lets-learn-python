@@ -1,0 +1,147 @@
+{
+  "key": "retail",
+  "order": 1,
+  "label": "Retail shop",
+  "icon": "🛒",
+  "accent": "#F2B01E",
+  "tagline": "Run the stock room of a corner shop",
+  "biz": "Corner Market",
+  "system": "Stock Desk",
+  "role": "stock assistant",
+  "thing": "product",
+  "things": "products",
+  "records": [
+    [
+      "Maize flour",
+      24,
+      4.5
+    ],
+    [
+      "Cooking oil",
+      6,
+      12.0
+    ],
+    [
+      "Sugar",
+      40,
+      3.25
+    ],
+    [
+      "Rice",
+      15,
+      5.0
+    ]
+  ],
+  "qty_unit": "in stock",
+  "rate_unit": "each",
+  "rp": "$",
+  "rs": "",
+  "tp": "$",
+  "ts": "",
+  "level": 10,
+  "msg_le": "REORDER: <<n1>>",
+  "msg_gt": "OK: <<n1>> is well stocked",
+  "missing": "Salt",
+  "missing_msg": "We don't stock <<missing>>",
+  "delivery": 20,
+  "delivery_note": "a supplier's delivery note",
+  "stock_noun": "stock",
+  "total_label": "Total stock value",
+  "vw": "Stock",
+  "opening": "It's your first morning as the stock assistant at **<<biz>>**. The owner wants a program that will one day run the whole stock room. Every program starts the same way: by saying something.",
+  "rule": "The owner has a rule: when a product is down to **<<level>> or fewer**, it must be reordered. Right now nobody notices until a shelf is empty.",
+  "scene": "A customer asks: \"Do you have <<n2>>?\" Staff shouldn't have to read the whole report. The system needs a quick lookup, and it must cope with things you don't stock.",
+  "v": {
+    "name": "product_name",
+    "qty": "units_in_stock",
+    "rate": "price",
+    "total": "stock_value",
+    "level": "reorder_level",
+    "names": "product_names",
+    "qtys": "stock",
+    "rates": "prices",
+    "value_fn": "value_of_stock",
+    "report_fn": "print_stock_report",
+    "find_fn": "find_stock",
+    "read_fn": "read_units",
+    "new": "new_units"
+  },
+  "cls": {
+    "name": "Product",
+    "qty": "units",
+    "rate": "price",
+    "value": "value",
+    "action": {
+      "kind": "add",
+      "name": "restock",
+      "doc": "add the delivery to the units on hand"
+    }
+  },
+  "glossary": [
+    [
+      "SKU",
+      "A shop's unique code for one product, so two similar items never get mixed up.",
+      "product_name"
+    ],
+    [
+      "Stock level",
+      "How many units of a product are on the shelf right now.",
+      "units_in_stock"
+    ],
+    [
+      "Reorder point",
+      "The stock level at which you must order more.",
+      "reorder_level"
+    ],
+    [
+      "Stock value",
+      "Money tied up in a product: units times price.",
+      "stock_value"
+    ],
+    [
+      "Shrinkage",
+      "Stock that disappears through theft, damage or errors. Reports help you spot it.",
+      ""
+    ],
+    [
+      "Delivery note",
+      "The paper that comes with a delivery, listing what was sent.",
+      "new_units"
+    ],
+    [
+      "Stocktake",
+      "A count of everything on the shelves, compared with the records.",
+      "print_stock_report"
+    ]
+  ],
+  "alert_name": "Reorder alert",
+  "probe": {
+    "name": "Freezer probe",
+    "tag": "FRZ",
+    "id": 101,
+    "unit": "°C",
+    "reading": -18.5,
+    "target": -18.0,
+    "readings": [
+      -18.0,
+      -18.5,
+      -19.0,
+      -17.5,
+      -18.5
+    ],
+    "raw_label": "  freezer probe a  ",
+    "text_reading": "-18.5",
+    "pos": [
+      12,
+      4
+    ],
+    "pos_label": "aisle and shelf position",
+    "batch_word": "cartons",
+    "batch_size": 5
+  },
+  "py_uses": [
+    "Forecast which products will sell out before the weekend",
+    "Print shelf labels and price lists from a spreadsheet in seconds",
+    "Track daily sales and spot the slow movers"
+  ]
+}

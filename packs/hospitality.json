@@ -1,0 +1,154 @@
+{
+  "key": "hospitality",
+  "order": 8,
+  "world": "retail",
+  "label": "Hospitality",
+  "icon": "🏨",
+  "accent": "#E0A15A",
+  "tagline": "Keep a hotel's linen and minibar stock running",
+  "biz": "Lakeview Hotel",
+  "system": "Housekeeping Stock Board",
+  "role": "housekeeping supervisor",
+  "thing": "supply item",
+  "things": "supply items",
+  "records": [
+    [
+      "Bath towels",
+      60,
+      4.5
+    ],
+    [
+      "Soap bars",
+      200,
+      0.5
+    ],
+    [
+      "Bed sheets",
+      36,
+      12.0
+    ],
+    [
+      "Coffee sachets",
+      90,
+      0.25
+    ]
+  ],
+  "qty_unit": "in the store room",
+  "rate_unit": "each",
+  "rp": "$",
+  "rs": "",
+  "tp": "$",
+  "ts": "",
+  "level": 40,
+  "msg_le": "RESTOCK: <<n1>>",
+  "msg_gt": "OK: <<n1>> is well stocked",
+  "missing": "Pillow cases",
+  "missing_msg": "We don't stock <<missing>>",
+  "delivery": 30,
+  "delivery_note": "the laundry delivery slip",
+  "stock_noun": "items",
+  "total_label": "Total store value",
+  "vw": "Store",
+  "alert_name": "Restock alert",
+  "opening": "You've joined the housekeeping team at **<<biz>>**. Guests expect fresh towels and full minibars, and today the store room is tracked on a clipboard. The supervisor wants a program that runs it.",
+  "rule": "The supervisor's rule: when a supply item is down to **<<level>> or fewer**, restock it before the next shift.",
+  "scene": "A manager radios: \"Do we have <<n2>>?\" Nobody should walk to the store room to count. The board needs a quick lookup, and it must cope with items you don't stock.",
+  "v": {
+    "name": "item_name",
+    "qty": "items_in_store",
+    "rate": "unit_cost",
+    "total": "store_value",
+    "level": "restock_level",
+    "names": "item_names",
+    "qtys": "store_counts",
+    "rates": "store_costs",
+    "value_fn": "value_of_store",
+    "report_fn": "print_store_report",
+    "find_fn": "find_item",
+    "read_fn": "read_items",
+    "new": "new_items"
+  },
+  "cls": {
+    "name": "Item",
+    "qty": "pieces",
+    "rate": "cost",
+    "value": "value",
+    "action": {
+      "kind": "add",
+      "name": "restock",
+      "doc": "add the delivery to the pieces on hand"
+    }
+  },
+  "glossary": [
+    [
+      "Par level",
+      "The stock a hotel aims to hold for each item.",
+      "restock_level"
+    ],
+    [
+      "Housekeeping",
+      "The team that cleans rooms and keeps them supplied.",
+      ""
+    ],
+    [
+      "Linen",
+      "Towels, sheets and pillow cases.",
+      "item_names"
+    ],
+    [
+      "Minibar",
+      "A small in-room fridge of drinks and snacks that must be refilled.",
+      ""
+    ],
+    [
+      "Turnover",
+      "Preparing a room for the next guest.",
+      ""
+    ],
+    [
+      "Laundry slip",
+      "The note that comes with a laundry delivery.",
+      "new_items"
+    ],
+    [
+      "Stock value",
+      "Money tied up in supplies: pieces times cost.",
+      "store_value"
+    ]
+  ],
+  "probe": {
+    "name": "Freezer room probe",
+    "tag": "FRE",
+    "id": 811,
+    "unit": "°C",
+    "reading": -16.5,
+    "target": -18.0,
+    "readings": [
+      -17.0,
+      -16.5,
+      -16.0,
+      -17.5,
+      -16.5
+    ],
+    "raw_label": " freezer room probe ",
+    "text_reading": "-16.5",
+    "pos": [
+      6,
+      2
+    ],
+    "pos_label": "store room shelf position",
+    "batch_word": "boxes",
+    "batch_size": 12
+  },
+  "py_uses": [
+    "Forecast how many towels and sheets each weekend needs",
+    "Check that kitchen freezers stayed cold overnight",
+    "Turn booking spreadsheets into a daily room-prep list"
+  ],
+  "world_text": {
+    "unit": "in the store room",
+    "low": "RESTOCK",
+    "ok": "well stocked",
+    "counter": "Housekeeping desk"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "key": "networking",
+  "order": 5,
+  "label": "Networking",
+  "icon": "🌐",
+  "accent": "#8E8CFF",
+  "tagline": "Monitor sites, switches and bandwidth",
+  "biz": "NorthLink Networks",
+  "system": "Network Monitor",
+  "role": "network technician",
+  "thing": "site",
+  "things": "sites",
+  "records": [
+    [
+      "Head office",
+      18,
+      8.5
+    ],
+    [
+      "Warehouse",
+      30,
+      4.0
+    ],
+    [
+      "Data centre",
+      12,
+      32.0
+    ],
+    [
+      "Branch shop",
+      9,
+      5.5
+    ]
+  ],
+  "qty_unit": "devices connected",
+  "rate_unit": "per device",
+  "rp": "",
+  "rs": " Mbps",
+  "tp": "",
+  "ts": " Mbps",
+  "level": 24,
+  "msg_le": "ONE SWITCH: <<n1>> fits",
+  "msg_gt": "ADD SWITCH: <<n1>> is over <<level>> ports",
+  "missing": "Remote depot",
+  "missing_msg": "No site called <<missing>>",
+  "delivery": 8,
+  "delivery_note": "the overnight inventory scan",
+  "stock_noun": "devices",
+  "total_label": "Total peak demand",
+  "vw": "Capacity",
+  "opening": "It's your first week on the network team at **<<biz>>**. Every site has switches, Wi-Fi and cables, and today nobody knows which ones are close to full. The team lead wants a program that watches the whole estate.",
+  "rule": "A switch has **<<level>> ports**. A site with <<level>> devices or fewer fits on one switch. A bigger site needs another, before devices start dropping off the network.",
+  "scene": "A colleague pings you: \"How many devices are at <<n2>>?\" Nobody should have to read the whole report. The monitor needs a quick lookup, and it must cope with sites you don't manage.",
+  "v": {
+    "name": "site_name",
+    "qty": "devices_connected",
+    "rate": "mbps_per_device",
+    "total": "demand_mbps",
+    "level": "port_limit",
+    "names": "site_names",
+    "qtys": "sites",
+    "rates": "site_mbps",
+    "value_fn": "demand_for",
+    "report_fn": "print_site_report",
+    "find_fn": "find_site",
+    "read_fn": "read_devices",
+    "new": "new_devices"
+  },
+  "cls": {
+    "name": "Site",
+    "qty": "devices",
+    "rate": "mbps",
+    "value": "demand",
+    "action": {
+      "kind": "check",
+      "name": "needs_second_switch",
+      "cmp": ">",
+      "doc": "say whether the site has outgrown one switch"
+    }
+  },
+  "glossary": [
+    [
+      "Switch",
+      "A box that connects wired devices on one network. Each cable uses a port.",
+      "port_limit"
+    ],
+    [
+      "Port",
+      "A socket on a switch. A 24-port switch connects 24 devices.",
+      "port_limit"
+    ],
+    [
+      "Bandwidth",
+      "How much data a link can carry, measured in Mbps.",
+      "mbps_per_device"
+    ],
+    [
+      "Mbps",
+      "Megabits per second, the usual unit for network speed.",
+      "demand_mbps"
+    ],
+    [
+      "Peak demand",
+      "The most traffic a site is likely to need at once.",
+      "demand_mbps"
+    ],
+    [
+      "Uptime",
+      "The share of time a service is working. Monitors exist to protect it.",
+      ""
+    ],
+    [
+      "Latency",
+      "The delay before data starts to arrive, in milliseconds.",
+      ""
+    ]
+  ],
+  "alert_name": "Switch check",
+  "probe": {
+    "name": "Signal probe",
+    "tag": "SIG",
+    "id": 509,
+    "unit": "dBm",
+    "reading": -67.5,
+    "target": -70.0,
+    "readings": [
+      -66.0,
+      -67.5,
+      -69.0,
+      -65.5,
+      -68.0
+    ],
+    "raw_label": "  wifi access point 3 ",
+    "text_reading": "-67.5",
+    "pos": [
+      8,
+      2
+    ],
+    "pos_label": "floor-plan position",
+    "batch_word": "access points",
+    "batch_size": 8
+  },
+  "py_uses": [
+    "Automate router and switch configuration across hundreds of devices",
+    "Ping every device and alert when one stops answering",
+    "Parse network logs to find the cause of an outage"
+  ]
+}

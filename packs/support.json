@@ -1,0 +1,148 @@
+{
+  "key": "support",
+  "order": 6,
+  "label": "Support desk",
+  "icon": "🎧",
+  "accent": "#FF8F70",
+  "tagline": "See every ticket queue and its workload",
+  "biz": "BrightDesk Support",
+  "system": "Ticket Queue Board",
+  "role": "support agent",
+  "thing": "ticket queue",
+  "things": "ticket queues",
+  "records": [
+    [
+      "Password resets",
+      24,
+      4.5
+    ],
+    [
+      "Billing questions",
+      9,
+      12.0
+    ],
+    [
+      "Bug reports",
+      14,
+      18.25
+    ],
+    [
+      "Account changes",
+      20,
+      6.0
+    ]
+  ],
+  "qty_unit": "open tickets",
+  "rate_unit": "per ticket",
+  "rp": "",
+  "rs": " min",
+  "tp": "",
+  "ts": " min",
+  "level": 10,
+  "msg_le": "SOLO: <<n1>> fits one agent",
+  "msg_gt": "ADD AGENT: <<n1>> needs more people",
+  "missing": "Data exports",
+  "missing_msg": "No queue called <<missing>>",
+  "delivery": 12,
+  "delivery_note": "the overnight email export",
+  "stock_noun": "tickets",
+  "total_label": "Total workload",
+  "vw": "Workload",
+  "opening": "You've joined the support team at **<<biz>>**, where tickets arrive faster than anyone can count them. The team lead wants a program that shows every queue and how long it will take.",
+  "rule": "The staffing rule: a queue of **<<level>> tickets or fewer** can be handled by one agent. A bigger queue needs an extra agent.",
+  "scene": "A manager asks in chat: \"How many tickets are waiting in <<n2>>?\" Nobody should scroll the whole board. The system needs a quick lookup, and it must cope with queues that don't exist.",
+  "v": {
+    "name": "queue_name",
+    "qty": "open_tickets",
+    "rate": "minutes_per_ticket",
+    "total": "workload_minutes",
+    "level": "solo_limit",
+    "names": "queue_names",
+    "qtys": "queues",
+    "rates": "handle_times",
+    "value_fn": "workload_for",
+    "report_fn": "print_queue_board",
+    "find_fn": "find_queue",
+    "read_fn": "read_tickets",
+    "new": "new_tickets"
+  },
+  "cls": {
+    "name": "Queue",
+    "qty": "tickets",
+    "rate": "minutes",
+    "value": "workload",
+    "action": {
+      "kind": "check",
+      "name": "needs_extra_agent",
+      "cmp": ">",
+      "doc": "say whether one agent is not enough"
+    }
+  },
+  "glossary": [
+    [
+      "Ticket",
+      "One customer request, tracked from first message to resolution.",
+      "open_tickets"
+    ],
+    [
+      "Queue",
+      "A waiting line of tickets of the same kind.",
+      "queue_name"
+    ],
+    [
+      "Handle time",
+      "The minutes an agent spends on one ticket.",
+      "minutes_per_ticket"
+    ],
+    [
+      "Workload",
+      "Total agent minutes a queue needs: tickets times handle time.",
+      "workload_minutes"
+    ],
+    [
+      "SLA",
+      "Service level agreement: the promised response or fix time.",
+      ""
+    ],
+    [
+      "Escalation",
+      "Passing a hard ticket to a more senior team.",
+      ""
+    ],
+    [
+      "Backlog",
+      "Tickets waiting that nobody has started yet.",
+      "new_tickets"
+    ]
+  ],
+  "alert_name": "Staffing rule",
+  "probe": {
+    "name": "SLA margin monitor",
+    "tag": "SLA",
+    "id": 603,
+    "unit": "min",
+    "reading": -2.5,
+    "target": 0.0,
+    "readings": [
+      4.0,
+      2.5,
+      1.0,
+      -0.5,
+      -2.5
+    ],
+    "raw_label": " sla margin queue 2 ",
+    "text_reading": "-2.5",
+    "pos": [
+      2,
+      6
+    ],
+    "pos_label": "desk map position",
+    "batch_word": "agents",
+    "batch_size": 5
+  },
+  "py_uses": [
+    "Auto-sort incoming tickets by topic and urgency",
+    "Alert the team before a ticket breaches its SLA",
+    "Turn thousands of chats into a weekly trends report"
+  ]
+}

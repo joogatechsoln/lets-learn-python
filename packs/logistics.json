@@ -1,0 +1,148 @@
+{
+  "key": "logistics",
+  "order": 3,
+  "label": "Logistics and freight",
+  "icon": "🚚",
+  "accent": "#5BA4FF",
+  "tagline": "Run a freight dispatch board",
+  "biz": "SwiftHaul Freight",
+  "system": "Dispatch Board",
+  "role": "dispatch assistant",
+  "thing": "cargo load",
+  "things": "cargo loads",
+  "records": [
+    [
+      "Cement",
+      30,
+      18.5
+    ],
+    [
+      "Steel bars",
+      12,
+      42.0
+    ],
+    [
+      "Fertilizer",
+      25,
+      21.25
+    ],
+    [
+      "Timber",
+      18,
+      30.0
+    ]
+  ],
+  "qty_unit": "tonnes ready",
+  "rate_unit": "per tonne",
+  "rp": "$",
+  "rs": "",
+  "tp": "$",
+  "ts": "",
+  "level": 10,
+  "msg_le": "HOLD: <<n1>> is under the minimum load",
+  "msg_gt": "GO: <<n1>> is ready to ship",
+  "missing": "Gravel",
+  "missing_msg": "No load called <<missing>>",
+  "delivery": 15,
+  "delivery_note": "a driver's loading slip",
+  "stock_noun": "tonnes",
+  "total_label": "Total freight charges",
+  "vw": "Freight",
+  "opening": "It's your first week on the dispatch desk at **<<biz>>**. Cargo arrives, trucks leave, and today it's all tracked on paper. The manager wants a program that runs the board.",
+  "rule": "A truck only leaves when a load is **more than <<level>> tonnes**. A load of <<level>> tonnes or fewer waits for more cargo.",
+  "scene": "A client rings: \"Is my <<n2>> on the board?\" Nobody should scan the whole board to answer. The system needs a quick lookup, and it must cope with loads that don't exist.",
+  "v": {
+    "name": "cargo_name",
+    "qty": "tonnes_ready",
+    "rate": "rate_per_tonne",
+    "total": "freight_charge",
+    "level": "minimum_load",
+    "names": "cargo_names",
+    "qtys": "loads",
+    "rates": "tonne_rates",
+    "value_fn": "charge_for",
+    "report_fn": "print_dispatch_board",
+    "find_fn": "find_load",
+    "read_fn": "read_tonnes",
+    "new": "new_tonnes"
+  },
+  "cls": {
+    "name": "Load",
+    "qty": "tonnes",
+    "rate": "rate",
+    "value": "charge",
+    "action": {
+      "kind": "check",
+      "name": "ready_to_ship",
+      "cmp": ">",
+      "doc": "say whether the load is big enough for a truck"
+    }
+  },
+  "glossary": [
+    [
+      "Consignment",
+      "One shipment of goods from a sender to a receiver.",
+      "cargo_name"
+    ],
+    [
+      "Tonne",
+      "1,000 kilograms. Freight is usually charged per tonne.",
+      "tonnes_ready"
+    ],
+    [
+      "Freight rate",
+      "The price to move one tonne of cargo.",
+      "rate_per_tonne"
+    ],
+    [
+      "Minimum load",
+      "The smallest cargo a truck will carry. Smaller loads wait.",
+      "minimum_load"
+    ],
+    [
+      "Dispatch",
+      "Sending a loaded truck on its way.",
+      "print_dispatch_board"
+    ],
+    [
+      "Loading slip",
+      "The paper a driver signs to confirm what was loaded.",
+      "new_tonnes"
+    ],
+    [
+      "Manifest",
+      "The full list of goods on a vehicle, used at checkpoints and borders.",
+      ""
+    ]
+  ],
+  "alert_name": "Dispatch rule",
+  "probe": {
+    "name": "Reefer GPS probe",
+    "tag": "GPS",
+    "id": 318,
+    "unit": "°C",
+    "reading": -16.5,
+    "target": -18.0,
+    "readings": [
+      -17.0,
+      -16.5,
+      -16.0,
+      -17.5,
+      -16.5
+    ],
+    "raw_label": " reefer truck 7 ",
+    "text_reading": "-16.5",
+    "pos": [
+      0.3136,
+      32.5811
+    ],
+    "pos_label": "GPS position (latitude, longitude)",
+    "batch_word": "truckloads",
+    "batch_size": 8
+  },
+  "py_uses": [
+    "Plan the cheapest route for every delivery",
+    "Track trucks and cargo temperatures live",
+    "Generate invoices from loading slips automatically"
+  ]
+}

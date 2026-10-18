@@ -1,0 +1,155 @@
+{
+  "key": "education",
+  "order": 10,
+  "world": "pharmacy",
+  "label": "Education",
+  "icon": "🎓",
+  "accent": "#B084F5",
+  "tagline": "Run a school library and its book stock",
+  "biz": "Hillside Primary School",
+  "system": "Library Desk",
+  "role": "library assistant",
+  "thing": "book title",
+  "things": "book titles",
+  "records": [
+    [
+      "Storybooks",
+      80,
+      6.0
+    ],
+    [
+      "Science texts",
+      32,
+      14.5
+    ],
+    [
+      "Atlases",
+      9,
+      22.0
+    ],
+    [
+      "Dictionaries",
+      25,
+      11.5
+    ]
+  ],
+  "qty_unit": "copies on the shelf",
+  "rate_unit": "each",
+  "rp": "$",
+  "rs": "",
+  "tp": "$",
+  "ts": "",
+  "level": 10,
+  "msg_le": "ORDER MORE: <<n1>>",
+  "msg_gt": "OK: <<n1>> has enough copies",
+  "missing": "Poetry anthologies",
+  "missing_msg": "Not in the library: <<missing>>",
+  "delivery": 15,
+  "delivery_note": "the publisher's delivery note",
+  "stock_noun": "copies",
+  "total_label": "Total library value",
+  "vw": "Library",
+  "alert_name": "Order rule",
+  "opening": "You've joined the library at **<<biz>>**. Teachers ask for class sets, pupils borrow books, and nobody knows which titles are running low. The head teacher wants a program that tracks the shelves.",
+  "rule": "The librarian's rule: when a title is down to **<<level>> copies or fewer**, order more before term starts.",
+  "scene": "A teacher asks: \"Do we have enough <<n2>> for my class?\" Nobody should search the shelves. The desk needs a quick lookup, and it must cope with titles the library does not hold.",
+  "v": {
+    "name": "title_name",
+    "qty": "copies_on_shelf",
+    "rate": "price_each",
+    "total": "library_value",
+    "level": "order_level",
+    "names": "title_names",
+    "qtys": "shelf_copies",
+    "rates": "book_prices",
+    "value_fn": "value_of_titles",
+    "report_fn": "print_library_report",
+    "find_fn": "find_title",
+    "read_fn": "read_copies",
+    "new": "new_copies"
+  },
+  "cls": {
+    "name": "Book",
+    "qty": "copies",
+    "rate": "price",
+    "value": "value",
+    "action": {
+      "kind": "take",
+      "name": "lend",
+      "doc": "lend copies out and return how many are left",
+      "err": "No copies left"
+    }
+  },
+  "glossary": [
+    [
+      "Title",
+      "One book, whatever the number of copies.",
+      "title_name"
+    ],
+    [
+      "Copy",
+      "A single physical book.",
+      "copies_on_shelf"
+    ],
+    [
+      "Catalogue",
+      "The searchable list of every book the library holds.",
+      ""
+    ],
+    [
+      "Loan period",
+      "How long a pupil may keep a book.",
+      ""
+    ],
+    [
+      "Class set",
+      "Enough copies for a whole class to read together.",
+      ""
+    ],
+    [
+      "Publisher",
+      "The company that prints and sells books.",
+      "new_copies"
+    ],
+    [
+      "Reorder level",
+      "The number of copies at which you buy more.",
+      "order_level"
+    ]
+  ],
+  "probe": {
+    "name": "Thermostat offset probe",
+    "tag": "THO",
+    "id": 1003,
+    "unit": "°C",
+    "reading": -1.5,
+    "target": 0.0,
+    "readings": [
+      -0.5,
+      -1.0,
+      -1.5,
+      -2.0,
+      -1.5
+    ],
+    "raw_label": " reading room thermostat ",
+    "text_reading": "-1.5",
+    "pos": [
+      3,
+      5
+    ],
+    "pos_label": "building plan position",
+    "batch_word": "bundles",
+    "batch_size": 12
+  },
+  "py_uses": [
+    "Predict which books pupils will borrow before term starts",
+    "Mark thousands of quiz answers in seconds",
+    "Turn attendance sheets into weekly reports"
+  ],
+  "world_text": {
+    "unit": "copies",
+    "low": "ORDER MORE",
+    "ok": "enough copies",
+    "counter": "Lending desk"
+  }
+}
